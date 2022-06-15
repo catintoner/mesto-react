@@ -1,44 +1,15 @@
-import Logo from './images/Logo.png';
+import Header from "./Header";
+import Main from "./Main";
+import Footer from "./Footer";
+
 
 function App() {
   return (
     <body class="page">
       <div class="container">
-        <header class="header">
-          <img class="header__logo" src= {Logo} alt="Логотип" />
-        </header>
-
-        <main class="content">
-          <section class="profile">
-            <div class="profile__avatar-container">
-              <img class="profile__avatar" src="#" alt="Аватарка" />
-              <button class="profile__avatar-button" type="button">
-              </button>
-            </div>
-            <div class="profile__info">
-              <h1 class="profile__name">
-                Жак-Ив Кусто
-              </h1>
-              <button class="profile__redaction" type="button">
-              </button>
-              <p class="profile__about">
-                Исследователь океана
-              </p>
-            </div>
-            <button class="profile__add-button" type="button">
-            </button>
-          </section>
-
-          <section class="cards">
-          </section>
-        </main>
-
-        <footer class="footer">
-          <p class="footer__copyright">
-            &copy; 2022 Mesto Russia
-          </p>
-        </footer>
-
+        <Header />
+        <Main />
+        <Footer />
       </div>
 
       <section class="popup popup_type_edit-profile">
