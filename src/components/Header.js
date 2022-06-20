@@ -2,9 +2,9 @@ import Logo from '../images/Logo.png';
 
 function Header() {
   return (
-    <header class="header">
-    <img class="header__logo" src= {Logo} alt="Логотип" />
-  </header>         
+    <header className="header">
+    <img className="header__logo" src= {Logo} alt="Логотип" />
+  </header>
   );
 }
 
