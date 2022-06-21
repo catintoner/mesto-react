@@ -1,12 +1,14 @@
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-
+import Card from "./Card";
 
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import React from "react";
 
+
+import { api } from "../utils/Api";
 
 function App() {
 
@@ -14,6 +16,36 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
 
+
+
+
+  const [userStats, setUserStats] = React.useState({});
+  const [cards, setCards] = React.useState([]);
+
+
+  const [getData, setGetData] = React.useState(false);
+
+  React.useEffect(() => {
+    Promise.all([
+      api.getInfoAboutUser(),
+      api.getInitialCards()
+    ])
+      .then((values) => {
+        const userStatsData = values[0];
+        const cardsData = values[1];
+
+        setUserStats({
+          userName: userStatsData.name,
+          userDescription: userStatsData.about,
+          userAvatar: userStatsData.avatar
+        });
+        console.log(userStatsData);
+
+        setCards(cardsData);
+        console.log(cardsData);
+      })
+    setGetData(true);
+  }, []);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -41,7 +73,10 @@ function App() {
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
           onEditAvatar={handleEditAvatarClick}
+          userStats={userStats}
+          cards={cards}
         />
+
         <Footer />
 
         <PopupWithForm
@@ -121,24 +156,7 @@ function App() {
           </button>
         </form>
       </section>
-
-      <template id="template__card">
-        <article className="card">
-          <img className="card__photo" src="#" alt="Картинка" />
-          <div className="card__info">
-            <h2 className="card__title">
-            </h2>
-            <div className="card__likes">
-              <button className="card__btn-like" type="button">
-              </button>
-              <p className="card__likes-counter">
-              </p>
-            </div>
-          </div>
-          <button className="card__trash" type="button">
-          </button>
-        </article>
-      </template> */}
+ */}
 
     </div>
   );
