@@ -1,16 +1,24 @@
-function Card({ link, name, likes }) {
+function Card(props) {
+
+  function handleClick() {
+    props.onCardClick({link: props.link, name: props.name})
+  }
+
   return (
     <article className="card">
-      <img className="card__photo" src={link} alt="Картинка" />
+      <img className="card__photo"
+           src={props.link}
+           alt="Картинка"
+           onClick={handleClick}/>
       <div className="card__info">
         <h2 className="card__title">
-          {name}
+          {props.name}
         </h2>
         <div className="card__likes">
           <button className="card__btn-like" type="button">
           </button>
           <p className="card__likes-counter">
-            {likes.length}
+            {props.likes.length}
           </p>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import Card from "./Card";
 
-function Main({userStats, onEditAvatar, onEditProfile, onAddPlace, cards }) {
+function Main({userStats, onEditAvatar, onEditProfile, onAddPlace, cards, onCardClick }) {
 
   return (
     <main className="content">
@@ -37,6 +37,7 @@ function Main({userStats, onEditAvatar, onEditProfile, onAddPlace, cards }) {
             link={card.link}
             name={card.name}
             likes={card.likes}
+            onCardClick={onCardClick}
           />
         )}
       </section>

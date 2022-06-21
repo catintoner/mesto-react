@@ -1,7 +1,6 @@
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import Card from "./Card";
 
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
@@ -15,15 +14,12 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-
+  const [selectedCard, setSelectedCard] = React.useState(null);
 
 
 
   const [userStats, setUserStats] = React.useState({});
   const [cards, setCards] = React.useState([]);
-
-
-  const [getData, setGetData] = React.useState(false);
 
   React.useEffect(() => {
     Promise.all([
@@ -39,12 +35,13 @@ function App() {
           userDescription: userStatsData.about,
           userAvatar: userStatsData.avatar
         });
-        console.log(userStatsData);
 
         setCards(cardsData);
-        console.log(cardsData);
       })
-    setGetData(true);
+
+      .catch((err) => {
+        console.log(err);
+      })
   }, []);
 
   function handleEditAvatarClick() {
@@ -63,21 +60,33 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
+    setSelectedCard(false);
+  }
+
+  function handleCardClick(props) {
+    setSelectedCard(props);
   }
 
   return (
     <div className="page">
       <div className="container">
         <Header />
+
         <Main
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
           onEditAvatar={handleEditAvatarClick}
           userStats={userStats}
           cards={cards}
+          onCardClick={handleCardClick}
         />
 
         <Footer />
+
+        <ImagePopup
+          card={selectedCard}
+          onClose={closeAllPopups}
+        />
 
         <PopupWithForm
           name={"edit-profile"}

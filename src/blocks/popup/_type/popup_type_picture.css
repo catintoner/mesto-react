@@ -1,5 +1,6 @@
 .popup_type_picture {
   grid-template-columns: 1fr max-content 1fr;
+  z-index: 3;
 }
 
 .popup_type_picture::before {
