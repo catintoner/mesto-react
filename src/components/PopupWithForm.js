@@ -11,16 +11,17 @@ function PopupWithForm(props) {
         }
       }
 
-    document.addEventListener('keydown', closeOnEsc);
+      document.addEventListener('keydown', closeOnEsc);
 
-    return () => {
-      document.removeEventListener('keydown', closeOnEsc);
+      return () => {
+        document.removeEventListener('keydown', closeOnEsc);
+      }
     }
-  }});
+  });
 
   return (
     <section
-      className={`popup popup_type_${props.name} ${props.isOpen}`}
+      className={`popup popup_type_${props.name} ${props.isOpen ? ("popup_opened") : ""}`}
     >
       <button
         className="popup__exit"
@@ -33,6 +34,10 @@ function PopupWithForm(props) {
         </h3>
 
         {props.children}
+
+        <button className="popup__submit-btn" type="submit">
+          {props.buttonSubmitText}
+        </button>
 
       </form>
     </section>

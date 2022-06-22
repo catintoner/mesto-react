@@ -26,17 +26,15 @@ function App() {
       api.getInfoAboutUser(),
       api.getInitialCards()
     ])
-      .then((values) => {
-        const userStatsData = values[0];
-        const cardsData = values[1];
+      .then(([user, cards]) => {
 
         setUserStats({
-          userName: userStatsData.name,
-          userDescription: userStatsData.about,
-          userAvatar: userStatsData.avatar
+          userName: user.name,
+          userDescription: user.about,
+          userAvatar: user.avatar
         });
 
-        setCards(cardsData);
+        setCards(cards);
       })
 
       .catch((err) => {
@@ -60,7 +58,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
-    setSelectedCard(false);
+    setSelectedCard(null);
   }
 
   function handleCardClick(props) {
@@ -89,86 +87,74 @@ function App() {
         />
 
         <PopupWithForm
-          name={"edit-profile"}
-          title={"Редактировать профиль"}
-          isOpen={isEditProfilePopupOpen ? ("popup_opened") : ""}
+          name="edit-profile"
+          title="Редактировать профиль"
+          isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-          children={
-            <>
-              <input className="popup__input" id="profile-name" name="name" minLength="2" maxLength="40" type="text"
-                placeholder="Имя" required autoComplete="off" />
-              <span className="popup__error profile-name-error">
-              </span>
-              <input className="popup__input" id="profile-about" name="about" minLength="2" maxLength="200" type="text"
-                placeholder="О себе" required autoComplete="off" />
-              <span className="popup__error profile-about-error">
-              </span>
-              <button className="popup__submit-btn" type="submit">
-                Сохранить
-              </button>
-            </>
-          }
-        />
+          buttonSubmitText="Сохранить"
+        >
+          <>
+            <input className="popup__input" id="profile-name" name="name" minLength="2" maxLength="40" type="text"
+              placeholder="Имя" required autoComplete="off" />
+            <span className="popup__error profile-name-error">
+            </span>
+            <input className="popup__input" id="profile-about" name="about" minLength="2" maxLength="200" type="text"
+              placeholder="О себе" required autoComplete="off" />
+            <span className="popup__error profile-about-error">
+            </span>
+          </>
+        </PopupWithForm>
 
         <PopupWithForm
-          name={"add-card"}
-          title={"Новое место"}
-          isOpen={isAddPlacePopupOpen ? ("popup_opened") : ""}
+          name="add-card"
+          title="Новое место"
+          isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
-          children={
-            <>
-              <input className="popup__input" id="place" name="name" type="text" minLength="2" maxLength="30" placeholder="Название"
-                required autoComplete="off" />
-              <span className="popup__error place-error">
-              </span>
-              <input className="popup__input" id="link" name="link" type="url" placeholder="Ссылка на картинку" required
-                autoComplete="off" />
-              <span className="popup__error link-error">
-              </span>
-              <button className="popup__submit-btn" type="submit">
-                Создать
-              </button>
-            </>
-          }
-        />
+          buttonSubmitText="Создать"
+        >
+          <>
+            <input className="popup__input" id="place" name="name" type="text" minLength="2" maxLength="30" placeholder="Название"
+              required autoComplete="off" />
+            <span className="popup__error place-error">
+            </span>
+            <input className="popup__input" id="link" name="link" type="url" placeholder="Ссылка на картинку" required
+              autoComplete="off" />
+            <span className="popup__error link-error">
+            </span>
+          </>
+        </PopupWithForm>
 
         <PopupWithForm
-          name={"edit-avatar"}
-          title={"Обновить аватар"}
-          isOpen={isEditAvatarPopupOpen ? ("popup_opened") : ""}
+          name="edit-avatar"
+          title="Обновить аватар"
+          isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
-          children={
-            <>
-              <input className="popup__input" id="avatar" name="avatar" type="url" placeholder="Ссылка на картинку" required
-                autoComplete="off" />
-              <span className="popup__error avatar-error">
-              </span>
-              <button className="popup__submit-btn" type="submit">
-                Сохранить
-              </button>
-            </>
-          }
-        />
+          buttonSubmitText="Сохранить"
+        >
+          <>
+            <input className="popup__input" id="avatar" name="avatar" type="url" placeholder="Ссылка на картинку" required
+              autoComplete="off" />
+            <span className="popup__error avatar-error">
+            </span>
+          </>
+        </PopupWithForm>
 
       </div>
-
-      {/*
-      <section className="popup popup_type_delete-card">
-        <button className="popup__exit" type="button">
-        </button>
-        <form className="popup__container" name="delete-card" noValidate>
-          <h3 className="popup__title popup__title_type_delete">
-            Вы уверены?
-          </h3>
-          <button className="popup__submit-btn" type="submit">
-            Да
-          </button>
-        </form>
-      </section>
- */}
-
     </div>
   );
 }
 
 export default App;
+
+{/* <section className="popup popup_type_delete-card">
+<button className="popup__exit" type="button">
+</button>
+<form className="popup__container" name="delete-card" noValidate>
+  <h3 className="popup__title popup__title_type_delete">
+    Вы уверены?
+  </h3>
+  <button className="popup__submit-btn" type="submit">
+    Да
+  </button>
+</form>
+</section> */}
