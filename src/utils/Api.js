@@ -12,7 +12,7 @@ class Api {
     return Promise.reject(`Ошибка: ${res.status}`);
   }
 
-  getInfoAboutUser() {
+  getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, { headers: this._headers })
       .then(this._checkResponse)
   }
@@ -22,7 +22,7 @@ class Api {
       .then(this._checkResponse)
   }
 
-  setInfoAboutUser({ name, about }) {
+  setUserInfo({ name, about }) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: this._headers,

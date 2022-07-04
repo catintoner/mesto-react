@@ -1,12 +1,20 @@
+import React from "react";
+
 import Card from "./Card";
 
-function Main({userStats, onEditAvatar, onEditProfile, onAddPlace, cards, onCardClick }) {
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { CurrentCardContext } from "../contexts/CurrentCardContext";
+
+function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
+
+  const currentUserInfo = React.useContext(CurrentUserContext);
+  const currentCards = React.useContext(CurrentCardContext);
 
   return (
     <main className="content">
       <section className="profile">
         <div className="profile__avatar-container">
-          <img className="profile__avatar" src={userStats.userAvatar} alt="Аватарка" />
+          <img className="profile__avatar" src={currentUserInfo.avatar} alt="Аватарка" />
           <button className="profile__avatar-button"
             type="button"
             onClick={onEditAvatar}>
@@ -14,14 +22,14 @@ function Main({userStats, onEditAvatar, onEditProfile, onAddPlace, cards, onCard
         </div>
         <div className="profile__info">
           <h1 className="profile__name">
-            {userStats.userName}
+            {currentUserInfo.name}
           </h1>
           <button className="profile__redaction"
             type="button"
             onClick={onEditProfile}>
           </button>
           <p className="profile__about">
-            {userStats.userDescription}
+            {currentUserInfo.about}
           </p>
         </div>
         <button className="profile__add-button"
@@ -31,9 +39,10 @@ function Main({userStats, onEditAvatar, onEditProfile, onAddPlace, cards, onCard
       </section>
 
       <section className="cards">
-        {cards.map((card) =>
+        {currentCards.map((card) =>
           <Card
             key={card._id}
+            ownerId={card.owner._id}
             link={card.link}
             name={card.name}
             likes={card.likes}
