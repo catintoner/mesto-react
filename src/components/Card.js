@@ -31,14 +31,14 @@ function Card(props) {
           {props.name}
         </h2>
         <div className="card__likes">
-          <button className={cardDeleteButtonClassName} type="button">
+          <button className={cardLikeButtonClassName} type="button">
           </button>
           <p className="card__likes-counter">
             {props.likes.length}
           </p>
         </div>
       </div>
-      <button className={cardLikeButtonClassName} type="button">
+      <button className={cardDeleteButtonClassName} type="button">
       </button>
     </article>
   );
