@@ -15,7 +15,7 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike
 
   function handleCardDelete(card) {
     api.deleteCard(card.cardId)
-      .then((deletedCard) => {
+      .then(() => {
         onTrashClick((state) => {
           console.log(state);
           return state.filter(item => item._id !== card.cardId);

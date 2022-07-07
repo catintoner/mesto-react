@@ -4,6 +4,7 @@ import Footer from "./Footer";
 
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
+import EditProfilePopup from "./EditProfilePopup";
 
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { CurrentCardContext } from "../contexts/CurrentCardContext";
@@ -23,7 +24,7 @@ function App() {
 
   //new project
 
-  const [currentUser, setCurrentUser] = React.useState({});
+  const [currentUser, setCurrentUser] = React.useState({ name: "", about: "" });
   const [cards, setCards] = React.useState([]);
 
   // const [ likedCard, setLikedCard ] = React.useState({});
@@ -76,6 +77,20 @@ function App() {
     setCards(props);
   }
 
+
+  function handleUpdateUser(userData) {
+    api.setUserInfo(userData)
+      .then((newUserInfo) => {
+        setCurrentUser(newUserInfo);
+      })
+
+      .catch(err => {
+        console.log(err);
+      });
+
+    closeAllPopups();
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <CurrentCardContext.Provider value={cards}>
@@ -99,24 +114,12 @@ function App() {
               onClose={closeAllPopups}
             />
 
-            <PopupWithForm
-              name="edit-profile"
-              title="Редактировать профиль"
+            <EditProfilePopup
               isOpen={isEditProfilePopupOpen}
               onClose={closeAllPopups}
-              buttonSubmitText="Сохранить"
-            >
-              <>
-                <input className="popup__input" id="profile-name" name="name" minLength="2" maxLength="40" type="text"
-                  placeholder="Имя" required autoComplete="off" />
-                <span className="popup__error profile-name-error">
-                </span>
-                <input className="popup__input" id="profile-about" name="about" minLength="2" maxLength="200" type="text"
-                  placeholder="О себе" required autoComplete="off" />
-                <span className="popup__error profile-about-error">
-                </span>
-              </>
-            </PopupWithForm>
+              onUpdateUser={handleUpdateUser}
+            />
+
 
             <PopupWithForm
               name="add-card"

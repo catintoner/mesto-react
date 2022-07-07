@@ -5,7 +5,7 @@ function PopupWithForm(props) {
   React.useEffect(() => {
     if (props.isOpen) {
       function closeOnEsc(evt) {
-        console.log(evt.key);
+        // console.log(evt.key);
         if (evt.key === "Escape") {
           props.onClose();
         }
@@ -28,14 +28,20 @@ function PopupWithForm(props) {
         type="button"
         onClick={props.onClose}>
       </button>
-      <form className="popup__container" name={props.name} noValidate>
+      <form className="popup__container"
+        name={props.name}
+        noValidate
+        onSubmit={props.onSubmit}
+      >
         <h3 className="popup__title">
           {props.title}
         </h3>
 
         {props.children}
 
-        <button className="popup__submit-btn" type="submit">
+        <button className="popup__submit-btn"
+          type="submit"
+        >
           {props.buttonSubmitText}
         </button>
 
