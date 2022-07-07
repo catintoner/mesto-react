@@ -14,10 +14,11 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike
 
 
   function handleCardDelete(card) {
-    api.deleteCard(card._id)
-      then((deletedCard) => {
+    api.deleteCard(card.cardId)
+      .then((deletedCard) => {
         onTrashClick((state) => {
-          return state.filter(item => item === deletedCard);
+          console.log(state);
+          return state.filter(item => item._id !== card.cardId);
         });
       })
       .catch(err => {
