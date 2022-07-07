@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { CurrentCardContext } from "../contexts/CurrentCardContext";
@@ -24,7 +25,7 @@ function App() {
 
   //new project
 
-  const [currentUser, setCurrentUser] = React.useState({ name: "", about: "" });
+  const [currentUser, setCurrentUser] = React.useState({ name: "", about: "", avatar: "" });
   const [cards, setCards] = React.useState([]);
 
   // const [ likedCard, setLikedCard ] = React.useState({});
@@ -91,6 +92,20 @@ function App() {
     closeAllPopups();
   }
 
+  function handleUpdateAvatar(avatarLink) {
+    api.editAvatar(avatarLink)
+      .then((newUserInfo) => {
+        setCurrentUser(newUserInfo);
+      })
+
+      .catch(err => {
+        console.log(err);
+      });
+
+    closeAllPopups();
+  }
+
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <CurrentCardContext.Provider value={cards}>
@@ -120,6 +135,11 @@ function App() {
               onUpdateUser={handleUpdateUser}
             />
 
+            <EditAvatarPopup
+              isOpen={isEditAvatarPopupOpen}
+              onClose={closeAllPopups}
+              onUpdateAvatar={handleUpdateAvatar}
+            />
 
             <PopupWithForm
               name="add-card"
@@ -136,21 +156,6 @@ function App() {
                 <input className="popup__input" id="link" name="link" type="url" placeholder="Ссылка на картинку" required
                   autoComplete="off" />
                 <span className="popup__error link-error">
-                </span>
-              </>
-            </PopupWithForm>
-
-            <PopupWithForm
-              name="edit-avatar"
-              title="Обновить аватар"
-              isOpen={isEditAvatarPopupOpen}
-              onClose={closeAllPopups}
-              buttonSubmitText="Сохранить"
-            >
-              <>
-                <input className="popup__input" id="avatar" name="avatar" type="url" placeholder="Ссылка на картинку" required
-                  autoComplete="off" />
-                <span className="popup__error avatar-error">
                 </span>
               </>
             </PopupWithForm>

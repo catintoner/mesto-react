@@ -5,7 +5,6 @@ function PopupWithForm(props) {
   React.useEffect(() => {
     if (props.isOpen) {
       function closeOnEsc(evt) {
-        // console.log(evt.key);
         if (evt.key === "Escape") {
           props.onClose();
         }

@@ -17,7 +17,6 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike
     api.deleteCard(card.cardId)
       .then(() => {
         onTrashClick((state) => {
-          console.log(state);
           return state.filter(item => item._id !== card.cardId);
         });
       })
@@ -34,7 +33,6 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike
       api.addLike(card.cardId)
         .then((modifiedCard) => {
           onCardLike((state) => {
-            console.log(state);
             return state.map(
               (c) => (
                 c._id === card.cardId ? modifiedCard : c
@@ -48,7 +46,6 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike
       api.removeLike(card.cardId)
         .then((modifiedCard) => {
           onCardLike((state) => {
-            console.log(state);
             return state.map(
               (c) => (
                 c._id === card.cardId ? modifiedCard : c
