@@ -20,10 +20,13 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(null);
 
+
   //new project
 
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
+
+  // const [ likedCard, setLikedCard ] = React.useState({});
 
 
 
@@ -65,6 +68,14 @@ function App() {
     setSelectedCard(props);
   }
 
+  function onCardLike(props) {
+    setCards(props);
+  }
+
+  function onTrashClick(props) {
+    setCards(props);
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <CurrentCardContext.Provider value={cards}>
@@ -77,6 +88,8 @@ function App() {
               onAddPlace={handleAddPlaceClick}
               onEditAvatar={handleEditAvatarClick}
               onCardClick={handleCardClick}
+              onCardLike={onCardLike}
+              onTrashClick={onTrashClick}
             />
 
             <Footer />

@@ -2,13 +2,64 @@ import React from "react";
 
 import Card from "./Card";
 
+
+import { api } from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { CurrentCardContext } from "../contexts/CurrentCardContext";
 
-function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
+function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike, onTrashClick }) {
 
   const currentUserInfo = React.useContext(CurrentUserContext);
   const currentCards = React.useContext(CurrentCardContext);
+
+
+  function handleCardDelete(card) {
+    api.deleteCard(card._id)
+      then((deletedCard) => {
+        onTrashClick((state) => {
+          return state.filter(item => item === deletedCard);
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      })
+
+  }
+
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(item => item._id === currentUserInfo._id);
+
+    if (!isLiked) {
+      api.addLike(card.cardId)
+        .then((modifiedCard) => {
+          onCardLike((state) => {
+            console.log(state);
+            return state.map(
+              (c) => (
+                c._id === card.cardId ? modifiedCard : c
+              ))
+          });
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    } else {
+      api.removeLike(card.cardId)
+        .then((modifiedCard) => {
+          onCardLike((state) => {
+            console.log(state);
+            return state.map(
+              (c) => (
+                c._id === card.cardId ? modifiedCard : c
+              ))
+          });
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    }
+
+  }
 
   return (
     <main className="content">
@@ -42,11 +93,14 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
         {currentCards.map((card) =>
           <Card
             key={card._id}
+            cardId={card._id}
             ownerId={card.owner._id}
             link={card.link}
             name={card.name}
             likes={card.likes}
             onCardClick={onCardClick}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
           />
         )}
       </section>
