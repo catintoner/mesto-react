@@ -1,19 +1,18 @@
 import React from "react";
 
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import { CurrentCardContext } from "../contexts/CurrentCardContext";
 
 function Card(props) {
 
-  const currentUserInfo = React.useContext(CurrentUserContext);
-  const currentCards = React.useContext(CurrentCardContext);
+  const currentUser = React.useContext(CurrentUserContext);
 
-  const isOwn = props.ownerId === currentUserInfo._id;
-  const isOwnLiked = props.likes.some(i => i._id === currentUserInfo._id);
+  const isOwn = props.ownerId === currentUser._id;
+  const isOwnLiked = props.likes.some(i => i._id === currentUser._id);
 
   const cardDeleteButtonClassName = (
     `card__trash ${(!isOwn) ? 'card__trash_type_hidden' : ""}`
   );
+
   const cardLikeButtonClassName = (
     `card__btn-like ${isOwnLiked ? 'card__btn-like_status_active' : ""}`
   );
@@ -32,16 +31,19 @@ function Card(props) {
 
   return (
     <article className="card">
-      <img className="card__photo"
+      <img
+        className="card__photo"
         src={props.link}
         alt={props.name}
-        onClick={handleClick} />
+        onClick={handleClick}
+      />
       <div className="card__info">
         <h2 className="card__title">
           {props.name}
         </h2>
         <div className="card__likes">
-          <button className={cardLikeButtonClassName}
+          <button
+            className={cardLikeButtonClassName}
             type="button"
             onClick={handleLikeClick}
           >
@@ -51,7 +53,8 @@ function Card(props) {
           </p>
         </div>
       </div>
-      <button className={cardDeleteButtonClassName}
+      <button
+        className={cardDeleteButtonClassName}
         type="button"
         onClick={handleDeleteClick}
       >

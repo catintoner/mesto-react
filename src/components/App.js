@@ -1,17 +1,16 @@
+import React from "react";
+
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 
-import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./addPlacePopup";
 
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { CurrentCardContext } from "../contexts/CurrentCardContext";
-
-import React from "react";
-
 
 import { api } from "../utils/Api";
 
@@ -20,17 +19,11 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+
   const [selectedCard, setSelectedCard] = React.useState(null);
-
-
-  //new project
 
   const [currentUser, setCurrentUser] = React.useState({ name: "", about: "", avatar: "" });
   const [cards, setCards] = React.useState([]);
-
-  // const [ likedCard, setLikedCard ] = React.useState({});
-
-
 
   React.useEffect(() => {
     Promise.all([
@@ -105,6 +98,67 @@ function App() {
     closeAllPopups();
   }
 
+  function handleAddPlace(newCard) {
+    api.addNewCard(newCard)
+      .then((newCard => {
+        setCards([newCard, ...cards]);
+      }))
+
+      .catch(err => {
+        console.log(err);
+      });
+
+    closeAllPopups();
+  }
+
+  function handleCardDelete(card) {
+    api.deleteCard(card.cardId)
+      .then(() => {
+        onTrashClick((state) => {
+          return state.filter(item => item._id !== card.cardId);
+        });
+      })
+
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(item => item._id === currentUser._id);
+
+    if (!isLiked) {
+      api.addLike(card.cardId)
+        .then((modifiedCard) => {
+          onCardLike((state) => {
+            return state.map(
+              (c) => (
+                c._id === card.cardId ? modifiedCard : c
+              ))
+          });
+        })
+
+        .catch(err => {
+          console.log(err);
+        })
+
+    } else {
+
+      api.removeLike(card.cardId)
+        .then((modifiedCard) => {
+          onCardLike((state) => {
+            return state.map(
+              (c) => (
+                c._id === card.cardId ? modifiedCard : c
+              ))
+          });
+        })
+
+        .catch(err => {
+          console.log(err);
+        })
+    }
+  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -118,8 +172,9 @@ function App() {
               onAddPlace={handleAddPlaceClick}
               onEditAvatar={handleEditAvatarClick}
               onCardClick={handleCardClick}
-              onCardLike={onCardLike}
-              onTrashClick={onTrashClick}
+              onCardLike={handleCardLike}
+              onTrashClick={handleCardDelete}
+              cards={cards}
             />
 
             <Footer />
@@ -141,24 +196,11 @@ function App() {
               onUpdateAvatar={handleUpdateAvatar}
             />
 
-            <PopupWithForm
-              name="add-card"
-              title="Новое место"
+            <AddPlacePopup
               isOpen={isAddPlacePopupOpen}
               onClose={closeAllPopups}
-              buttonSubmitText="Создать"
-            >
-              <>
-                <input className="popup__input" id="place" name="name" type="text" minLength="2" maxLength="30" placeholder="Название"
-                  required autoComplete="off" />
-                <span className="popup__error place-error">
-                </span>
-                <input className="popup__input" id="link" name="link" type="url" placeholder="Ссылка на картинку" required
-                  autoComplete="off" />
-                <span className="popup__error link-error">
-                </span>
-              </>
-            </PopupWithForm>
+              onAddPlace={handleAddPlace}
+            />
 
           </div>
         </div>

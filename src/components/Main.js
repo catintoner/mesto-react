@@ -2,68 +2,24 @@ import React from "react";
 
 import Card from "./Card";
 
-
-import { api } from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import { CurrentCardContext } from "../contexts/CurrentCardContext";
 
-function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike, onTrashClick }) {
+function Main({
+  onEditAvatar,
+  onEditProfile,
+  onAddPlace,
+  onCardClick,
+  onCardLike,
+  onTrashClick,
+  cards }) {
 
-  const currentUserInfo = React.useContext(CurrentUserContext);
-  const currentCards = React.useContext(CurrentCardContext);
-
-
-  function handleCardDelete(card) {
-    api.deleteCard(card.cardId)
-      .then(() => {
-        onTrashClick((state) => {
-          return state.filter(item => item._id !== card.cardId);
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      })
-
-  }
-
-  function handleCardLike(card) {
-    const isLiked = card.likes.some(item => item._id === currentUserInfo._id);
-
-    if (!isLiked) {
-      api.addLike(card.cardId)
-        .then((modifiedCard) => {
-          onCardLike((state) => {
-            return state.map(
-              (c) => (
-                c._id === card.cardId ? modifiedCard : c
-              ))
-          });
-        })
-        .catch(err => {
-          console.log(err);
-        })
-    } else {
-      api.removeLike(card.cardId)
-        .then((modifiedCard) => {
-          onCardLike((state) => {
-            return state.map(
-              (c) => (
-                c._id === card.cardId ? modifiedCard : c
-              ))
-          });
-        })
-        .catch(err => {
-          console.log(err);
-        })
-    }
-
-  }
+  const currentUser = React.useContext(CurrentUserContext);
 
   return (
     <main className="content">
       <section className="profile">
         <div className="profile__avatar-container">
-          <img className="profile__avatar" src={currentUserInfo.avatar} alt="Аватарка" />
+          <img className="profile__avatar" src={currentUser.avatar} alt="Аватарка" />
           <button className="profile__avatar-button"
             type="button"
             onClick={onEditAvatar}>
@@ -71,14 +27,14 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike
         </div>
         <div className="profile__info">
           <h1 className="profile__name">
-            {currentUserInfo.name}
+            {currentUser.name}
           </h1>
           <button className="profile__redaction"
             type="button"
             onClick={onEditProfile}>
           </button>
           <p className="profile__about">
-            {currentUserInfo.about}
+            {currentUser.about}
           </p>
         </div>
         <button className="profile__add-button"
@@ -88,19 +44,21 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike
       </section>
 
       <section className="cards">
-        {currentCards.map((card) =>
-          <Card
-            key={card._id}
-            cardId={card._id}
-            ownerId={card.owner._id}
-            link={card.link}
-            name={card.name}
-            likes={card.likes}
-            onCardClick={onCardClick}
-            onCardLike={handleCardLike}
-            onCardDelete={handleCardDelete}
-          />
-        )}
+        {cards.map((card) => {
+          return (
+            <Card
+              key={card._id}
+              cardId={card._id}
+              ownerId={card.owner._id}
+              link={card.link}
+              name={card.name}
+              likes={card.likes}
+              onCardClick={onCardClick}
+              onCardLike={onCardLike}
+              onCardDelete={onTrashClick}
+            />
+          )
+        })}
       </section>
     </main>
   );

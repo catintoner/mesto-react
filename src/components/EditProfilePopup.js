@@ -16,7 +16,6 @@ function EditProfilePopup(props) {
     setDescription(currentUser.about);
   }, [currentUser]);
 
-
   function handleNameChange(evt) {
     setName(evt.target.value);
   }
@@ -44,7 +43,8 @@ function EditProfilePopup(props) {
       buttonSubmitText="Сохранить"
     >
       <>
-        <input className="popup__input"
+        <input
+          className="popup__input"
           id="profile-name"
           name="name"
           minLength="2"
@@ -56,9 +56,12 @@ function EditProfilePopup(props) {
           value={name}
           onChange={handleNameChange}
         />
+
         <span className="popup__error profile-name-error">
         </span>
-        <input className="popup__input"
+
+        <input
+          className="popup__input"
           id="profile-about"
           name="about"
           minLength="2"

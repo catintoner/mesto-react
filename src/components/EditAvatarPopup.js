@@ -2,8 +2,6 @@ import React from "react";
 
 import PopupWithForm from "./PopupWithForm";
 
-
-
 function EditAvatarPopup(props) {
 
   const avatarRef = React.useRef();
@@ -26,7 +24,8 @@ function EditAvatarPopup(props) {
       buttonSubmitText="Сохранить"
     >
       <>
-        <input className="popup__input"
+        <input
+          className="popup__input"
           id="avatar"
           name="avatar"
           type="url"
