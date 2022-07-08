@@ -33,35 +33,35 @@ function AddPlacePopup(props) {
       onSubmit={handleSubmit}
       buttonSubmitText="Создать"
     >
-      <>
-        <input className="popup__input"
-          id="place" name="name"
-          type="text"
-          minLength="2"
-          maxLength="30"
-          placeholder="Название"
-          required
-          autoComplete="off"
-          value={place}
-          onChange={handleAddPlace}
-        />
 
-        <span className="popup__error place-error">
-        </span>
+      <input className="popup__input"
+        id="place" name="name"
+        type="text"
+        minLength="2"
+        maxLength="30"
+        placeholder="Название"
+        required
+        autoComplete="off"
+        value={place}
+        onChange={handleAddPlace}
+      />
 
-        <input className="popup__input"
-          id="link" name="link"
-          type="url"
-          placeholder="Ссылка на картинку"
-          required
-          autoComplete="off"
-          value={link}
-          onChange={handleAddLink}
-        />
+      <span className="popup__error place-error">
+      </span>
 
-        <span className="popup__error link-error">
-        </span>
-      </>
+      <input className="popup__input"
+        id="link" name="link"
+        type="url"
+        placeholder="Ссылка на картинку"
+        required
+        autoComplete="off"
+        value={link}
+        onChange={handleAddLink}
+      />
+
+      <span className="popup__error link-error">
+      </span>
+
     </PopupWithForm>
   )
 }

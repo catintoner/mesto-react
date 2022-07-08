@@ -16,7 +16,7 @@ function PopupWithForm(props) {
         document.removeEventListener('keydown', closeOnEsc);
       }
     }
-  });
+  }, []);
 
   return (
     <section
@@ -29,7 +29,6 @@ function PopupWithForm(props) {
       </button>
       <form className="popup__container"
         name={props.name}
-        noValidate
         onSubmit={props.onSubmit}
       >
         <h3 className="popup__title">

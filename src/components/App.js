@@ -7,7 +7,7 @@ import Footer from "./Footer";
 import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
-import AddPlacePopup from "./addPlacePopup";
+import AddPlacePopup from "./AddPlacePopup";
 
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { CurrentCardContext } from "../contexts/CurrentCardContext";
@@ -76,39 +76,36 @@ function App() {
     api.setUserInfo(userData)
       .then((newUserInfo) => {
         setCurrentUser(newUserInfo);
+        closeAllPopups();
       })
 
       .catch(err => {
         console.log(err);
       });
-
-    closeAllPopups();
   }
 
   function handleUpdateAvatar(avatarLink) {
     api.editAvatar(avatarLink)
       .then((newUserInfo) => {
         setCurrentUser(newUserInfo);
+        closeAllPopups();
       })
 
       .catch(err => {
         console.log(err);
       });
-
-    closeAllPopups();
   }
 
   function handleAddPlace(newCard) {
     api.addNewCard(newCard)
       .then((newCard => {
         setCards([newCard, ...cards]);
+        closeAllPopups();
       }))
 
       .catch(err => {
         console.log(err);
       });
-
-    closeAllPopups();
   }
 
   function handleCardDelete(card) {

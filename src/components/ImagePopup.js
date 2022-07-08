@@ -16,7 +16,7 @@ function ImagePopup({ card, onClose }) {
     return () => {
       document.removeEventListener('keydown', closeOnEsc);
     }
-  }});
+  }}, []);
 
   return (
     <section className={`popup popup_type_picture ${card ? ("popup_opened") : ""}`}>
